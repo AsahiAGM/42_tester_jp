@@ -1,0 +1,97 @@
+#include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define ANSI_GREEN "\x1b[32m" 
+#define ANSI_RESET "\x1b[0m" 
+
+void process_file(const char *filename)
+{
+    int fd = open(filename, O_RDONLY);
+    if (fd == -1)
+    {
+        perror(filename);
+        return;
+    }
+
+    char *line;
+	write(STDOUT_FILENO, ANSI_GREEN, strlen(ANSI_GREEN));
+    write(1, "\n<< read file test [", 21);
+    write(1, filename, strlen(filename));
+    write(1, "] >>\n", 6);
+    write(1, "[gnl process]", 14); write(STDOUT_FILENO, ANSI_RESET, strlen(ANSI_RESET));
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        write(1, line, strlen(line));
+        free(line);
+    }
+    write(STDOUT_FILENO, ANSI_GREEN, strlen(ANSI_GREEN)); write(1, "[gnl process]\n", 15); write(STDOUT_FILENO, ANSI_RESET, strlen(ANSI_RESET));
+    close(fd);
+}
+
+int main(int argc, char **argv)
+{
+    // (void)argc;
+    // (void)argv;
+    // printf("hello, github actions!!");
+    if (argc > 1)
+    {
+        // argvから複数ファイルを処理
+        for (int i = 1; i < argc; i++)
+            process_file(argv[i]);
+        return 0;
+    }
+
+    // stdin からスペース区切りでファイル名を受け取る
+    char buf[4096]; // 十分大きく。バッファは4045文字までしか入らないのでこれが上限
+    if (fgets(buf, sizeof(buf), stdin))
+    {
+        // 改行削除
+        buf[strcspn(buf, "\n")] = 0;
+
+        char *token = strtok(buf, " ");
+        while (token)
+        {
+            process_file(token);
+            token = strtok(NULL, " ");
+        }
+    }
+
+    return 0;
+}
+
+// // cluade版 GNL
+// char	*get_next_line(int fd)
+// {
+// 	static char	*remainder;
+// 	char		*line;
+// 	char		*new_remainder;
+
+// 	if (fd < 0 || BUFFER_SIZE <= 0)
+// 		return (NULL);
+// 	if (!remainder)
+// 	{
+// 		remainder = malloc(1);
+// 		if (!remainder)
+// 			return (NULL);
+// 		remainder[0] = '\0';
+// 	}
+// 	new_remainder = read_and_store(fd, remainder);
+// 	if (!new_remainder)
+// 	{
+// 		remainder = NULL;
+// 		return (NULL);
+// 	}
+// 	remainder = new_remainder;
+// 	line = extract_line(remainder);
+// 	if (!line)
+// 	{
+// 		remainder = NULL;
+// 		return (NULL);
+// 	}
+// 	remainder = update_remainder(remainder);
+// 	return (line);
+// }
