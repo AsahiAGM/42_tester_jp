@@ -12,11 +12,11 @@ int main(void)
 {
 	char *line;
 
-	write(STDOUT_FILENO, ANSI_GREEN, strlen(ANSI_GREEN)); write(1, "<< stdin test>>\n", 17); write(STDOUT_FILENO, ANSI_RESET, strlen(ANSI_RESET));
+	write(STDOUT_FILENO, ANSI_GREEN, strlen(ANSI_GREEN)); write(1, "<< stdin test >>\n", 17); write(STDOUT_FILENO, ANSI_RESET, strlen(ANSI_RESET));
     line = get_next_line(0);
 	printf("%s", line);
     free(line);
 	line = NULL;
 
-	printf("%s---end---%s\n", ANSI_GREEN, ANSI_RESET);
+	printf("\n");
 }

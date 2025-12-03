@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ft_printf.h" // for mandatory
-//#include "ft_printf_bonus.h" // for bonus
+//#include "ft_printf.h" // for mandatory
+#include "ft_printf_bonus.h" // for bonus
 #include <limits.h>
 
 int	main(void)
@@ -93,25 +93,26 @@ int	main(void)
 	len = printf("|%+d|", 42); printf("  (%d)\n", len);  // => |+42|  add plus
 	len = printf("|%+d|", -42); printf("  (%d)\n", len); // => |-42|  prioritize sign
 	//%[flags][width][.precision][length]specifier
-	// len = printf("mix: |%#- +08.5x|", 255); printf("  (%d)\n", len);//
-	// len = printf("mix: |%- +0#8.5x|", 255); printf("  (%d)\n", len);//
-	// len = printf("mix: |% +0#-8.5x|", 255); printf("  (%d)\n", len);//
-	// len = printf("mix: |%+0#- 8.5x|", 255); printf("  (%d)\n", len);//
-	// len = printf("mix: |%0#- +8.5x|", 255); printf("  (%d)\n", len);//
-	// len = printf("mix: |%0# +8.5k%|", 255); printf("  (%d)\n", len);//[KO]　出力無し
-	// len = printf("mix: |% -  1d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% -  2d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% -  3d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% -  4d|", 123); printf("  (%d)\n", len); //[KO]　記号と数字の間にスペース
-	// len = printf("mix: |% +  1d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% +  2d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% +  3d|", 123); printf("  (%d)\n", len);
-	// len = printf("mix: |% +  4d|", 123); printf("  (%d)\n", len); //[KO]　記号と数字の間にスペース
-	// len = printf("mix: |% -  5d|", 123); printf("  (%d)\n", len); //[KO]　最後のスペース１個多い
-	// len = printf("mix: |%-   5d|", 123); printf("  (%d)\n", len); //[KO]　最後のスペース１個多い
-	// len = printf("mix: |% +  5d|", 123); printf("  (%d)\n", len); //[KO]　記号の間にスペース
-	// len = printf("mix: |%+   5d|", 123); printf("  (%d)\n", len); //[KO]　記号の間にスペース
-	// len = printf("mix: |%+   5%d|", 123); printf("  (%d)\n", len);
+	printf("mix: \n");
+	len = printf("|%#- +08.5x|", 255); printf("  (%d)\n", len);//
+	len = printf("|%- +0#8.5x|", 255); printf("  (%d)\n", len);//
+	len = printf("|% +0#-8.5x|", 255); printf("  (%d)\n", len);//
+	len = printf("|%+0#- 8.5x|", 255); printf("  (%d)\n", len);//
+	len = printf("|%0#- +8.5x|", 255); printf("  (%d)\n", len);//
+	//len = printf("|%0# +8.5k%|", 255); printf("  (%d)\n", len);//[KO]　出力無し
+	len = printf("|% -  1d|", 123); printf("  (%d)\n", len);
+	len = printf("|% -  2d|", 123); printf("  (%d)\n", len);
+	len = printf("|% -  3d|", 123); printf("  (%d)\n", len);
+	len = printf("|% -  4d|", 123); printf("  (%d)\n", len); //[KO]　記号と数字の間にスペース
+	len = printf("|% +  1d|", 123); printf("  (%d)\n", len);
+	len = printf("|% +  2d|", 123); printf("  (%d)\n", len);
+	len = printf("|% +  3d|", 123); printf("  (%d)\n", len);
+	len = printf("|% +  4d|", 123); printf("  (%d)\n", len); //[KO]　記号と数字の間にスペース
+	len = printf("|% -  5d|", 123); printf("  (%d)\n", len); //[KO]　最後のスペース１個多い
+	len = printf("|%-   5d|", 123); printf("  (%d)\n", len); //[KO]　最後のスペース１個多い
+	len = printf("|% +  5d|", 123); printf("  (%d)\n", len); //[KO]　記号の間にスペース
+	len = printf("|%+   5d|", 123); printf("  (%d)\n", len); //[KO]　記号の間にスペース
+	len = printf("|%+   5%d|", 123); printf("  (%d)\n", len);
 
 	printf("\n----- ft_printf -----\n");
 	len = ft_printf("|%8d|", 42);  printf("  (%d)\n", len);// Example of left-justified and precision
