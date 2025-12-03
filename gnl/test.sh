@@ -45,14 +45,25 @@ if [ "$mode" = "t" ]; then
 		gcc -Wall -Wextra -Werror -g get_next_line.c get_next_line_utils.c .test.c
 	fi
 
-	echo "choose and write test text name"
-	echo "$(ls .src/)"
-	echo "<< choose target [exit -> e] >>"
-	read file
+	while [ $? -eq 0 ]; do
+		echo "choose and write test text name"
+		echo "$(ls .src/)"
+		echo "<< choose target [exit -> e] >>"
+		read file
 
-	if [ "$file" = "e" ]; then
-		exit 0
-	fi
+		if [ "$file" = "e" ]; then
+			break
+		fi
+
+		OS=$(uname)
+		if [[ "$OS" == "Linux" ]]; then
+			# Linux用の実行
+			valgrind --track-origins=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./a.out .src/$file
+		else
+			# macOS用の実行(Linux環境以外だと valgrind が使えないため)
+			leaks --atExit -- ./a.out .src/$file
+		fi
+	done
 elif [ "$mode" = "s" ]; then
 	### stdin test
 	if [ "$bonus" = "b" ]; then
@@ -63,30 +74,38 @@ elif [ "$mode" = "s" ]; then
 	# GREEN="\x1b[32m"
 	# RESET="\x1b[0m"
 	# echo -e "$GREEN<< stdin test >>$RESET"
+
+	while [ $? -eq 0 ]; do
+		OS=$(uname)
+		if [ "$OS" = "Linux" ]; then
+			# Linux用の実行
+			valgrind -q --track-origins=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./a.out .src/$file
+		else
+			# macOS用の実行(Linux環境以外だと valgrind が使えないため)
+			leaks --atExit -- ./a.out .src/$file
+		fi
+
+		echo "exit ? [y/n]"
+		read EXIT
+		if [ "$EXIT" = "y" ]; then
+			break
+		fi
+	done
 else
 	### multi file test
 	gcc -Wall -Wextra -Werror -g get_next_line_bonus.c get_next_line_utils_bonus.c .runtest.c
 
 	OS=$(uname)
-	if [[ "$OS" == "Linux" ]]; then
+	if [ "$OS" = "Linux" ]; then
 		# Linux用の実行
 		valgrind -q --track-origins=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./a.out
 	else
 		# macOS用の実行(Linux環境以外だと valgrind が使えないため)
 		leaks --atExit -- ./a.out
 	fi
-
-	rm a.out
-	exit 0
 fi
 
-OS=$(uname)
-if [[ "$OS" == "Linux" ]]; then
-    # Linux用の実行
-    valgrind -q --track-origins=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./a.out .src/$file
-else
-    # macOS用の実行(Linux環境以外だと valgrind が使えないため)
-    leaks --atExit -- ./a.out .src/$file
-fi
-
+# finish test
+echo "----finish GNL tester.----"
 rm a.out
+exit 0

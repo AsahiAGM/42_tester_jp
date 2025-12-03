@@ -119,7 +119,7 @@ int main(void) {
   // リストサイズを実際にオープンできた数に調整
   file_list = realloc(file_list, sizeof(t_file_info) * current_file_count);
 
-  printf("%s--- Random GNL Start (Total %d files) ---\n\n%s", ANSI_GREEN,
+  printf("%s--- Random GNL Start (Total %d files) ---\n%s", ANSI_GREEN,
          current_file_count, ANSI_RESET); fflush(stdout);
 
   // 2. メインループ: リストが空になるまで繰り返す
