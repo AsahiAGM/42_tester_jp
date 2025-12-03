@@ -1,4 +1,5 @@
 #!/bin/sh
+
 mode=""
 
 echo "mode ? [m/b  e->exit]"
