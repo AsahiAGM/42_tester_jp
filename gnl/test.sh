@@ -2,6 +2,8 @@
 GREEN="\033[32m"
 RESET="\033[0m"
 
+CCW="gcc -Wall -Wextra -Werror -g"
+
 ### GNL tester setup
 printf "%b----start GNL tester.----%b\n" $GREEN $RESET
 echo "change size? :"
@@ -27,7 +29,7 @@ fi
 
 ### GNL tester start
 if [ "$BUFFER_SIZE" = "" ]; then
-	BUFFER_SIZE="default(=10)"
+	BUFFER_SIZE="10"
 fi
 echo "<< GNL tester run >>"
 while [ $? -eq 0 ]; do
@@ -62,9 +64,13 @@ while [ $? -eq 0 ]; do
 	if [ "$mode" = "t" ]; then
 		### read text test
 		if [ "$bonus" = "b" ]; then
-			gcc -Wall -Wextra -Werror -g get_next_line_bonus.c get_next_line_utils_bonus.c .test.c
+			echo "$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .test_bonus.c"
+			$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .test_bonus.c
+			echo "compile status: $?"
 		else
-			gcc -Wall -Wextra -Werror -g get_next_line.c get_next_line_utils.c .test.c
+			echo "$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line.c get_next_line_utils.c .test.c"
+			$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line.c get_next_line_utils.c .test.c
+			echo "compile status: $?"
 		fi
 
 		while [ $? -eq 0 ]; do
@@ -98,9 +104,13 @@ while [ $? -eq 0 ]; do
 	elif [ "$mode" = "s" ]; then
 		### stdin test
 		if [ "$bonus" = "b" ]; then
-			gcc -Wall -Wextra -Werror -g get_next_line_bonus.c get_next_line_utils_bonus.c .stdintest.c
+			echo "$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .stdintest_bonus.c"
+			$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .stdintest_bonus.c
+			echo "compile status: $?"
 		else
-			gcc -Wall -Wextra -Werror -g get_next_line.c get_next_line_utils.c .stdintest.c
+			echo "$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line.c get_next_line_utils.c .stdintest.c"
+			$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line.c get_next_line_utils.c .stdintest.c
+			echo "compile status: $?"
 		fi
 
 		while [ $? -eq 0 ]; do
@@ -126,7 +136,9 @@ while [ $? -eq 0 ]; do
 		done
 	else
 		### multi file test
-		gcc -Wall -Wextra -Werror -g get_next_line_bonus.c get_next_line_utils_bonus.c .runtest.c
+		echo "$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .runtest.c"
+		$CCW -D BUFFER_SIZE=$BUFFER_SIZE get_next_line_bonus.c get_next_line_utils_bonus.c .runtest.c
+		echo "compile status: $?"
 
 		OS=$(uname)
 		if [ "$OS" = "Linux" ]; then
