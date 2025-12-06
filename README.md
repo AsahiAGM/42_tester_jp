@@ -8,8 +8,7 @@
 - 1.0.0
 
 ### progress
-- ft_printf, gnl のテストファイルをコンパイルするMakefileの作成
-- ディレクトリの整合をとる 
+- Makefileの書式診断、norminette、
 
 ### projects
 - 42_tester
