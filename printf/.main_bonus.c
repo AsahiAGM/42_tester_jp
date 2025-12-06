@@ -10,7 +10,7 @@ int	main(void)
 	int *buf = calloc(1,sizeof(int));
 	int *buf2 = malloc(0);
 	int len = 0;
-
+	
 	printf("// Mandatroy tests\n");
 	printf("----- printf -----\n");
 	len = printf("Hello, world!! "); printf(" %d\n", len);
@@ -25,16 +25,19 @@ int	main(void)
 	len = printf("%i", -42); printf(" %d\n", len);
 	len = printf("%i", INT_MIN); printf(" %d\n", len);
 	len = printf("%u", 2025); printf(" %d\n", len);
-	len = printf("%u", -2025); printf(" %d\n", len);
+	len = printf("%u", -2025); printf(" %d\n", len); // overflow
 	len = printf("%x", 0xFF); printf(" %d\n", len);
 	len = printf("%x", 0x0); printf(" %d\n", len);
 	len = printf("%X", 0xFF); printf(" %d\n", len);
 	len = printf("%X", 0x0); printf(" %d\n", len);
 	len = printf("%%"); printf(" %d\n", len);
-	//len = printf("%"); printf(" %d\n", len); // 本家の”単体%”は静的エラーでコンパイル時にエラーを出す
+	printf("(only %%)\n"); fflush(stdout);
+	len = printf("%"); printf(" %d\n", len); // 未定義動作。コンパイル時に警告を表示
 	//len = printf("%f", 3.14159265359); printf(" %d\n", len);  //f は今回作らない
-	//len = printf("%%%"); printf(" %d\n", len); // 奇数個の％はコンパイルエラー
-	len = printf("Mixed: char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
+	printf("(unpaired %%)\n"); fflush(stdout);
+	len = printf("%%%"); printf(" %d\n", len); // 未定義動作。コンパイル時に警告を表示
+	printf("(Mix test)\n", len);
+	len = printf("char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
 	printf("\n %d\n", len);
 	printf("\n----- ft_printf -----\n");
 	len = ft_printf("Hello, world!! "); printf(" %d\n", len);
@@ -55,15 +58,16 @@ int	main(void)
 	len = ft_printf("%X", 0xFF); printf(" %d\n", len);
 	len = ft_printf("%X", 0x0); printf(" %d\n", len);
 	len = ft_printf("%%"); printf(" %d\n", len);
-	printf("(ft only, 'only %%')\n"); fflush(stdout);
-	len = ft_printf("%"); printf(" %d\n", len); // 静的エラーにできないので未定義動作ハンドリング
+	printf("(only %%)\n"); fflush(stdout);
+	len = ft_printf("%"); printf(" %d\n", len); // 未定義動作
 	//len = ft_printf("%f", 3.14159265359); printf(" %d\n", len);
-	printf("(ft only, 'odd %%') \n"); fflush(stdout);
-	len = ft_printf("%%%"); printf(" %d\n", len); // 静的エラーにできないので未定義動作ハンドリング
+	printf("(unpaired %%)\n"); fflush(stdout);
+	len = ft_printf("%%%"); printf(" %d\n", len); //未定義動作
 	//mixed test
-	len = ft_printf("Mixed: char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
+	printf("(Mix test)\n", len);
+	len = ft_printf("char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
 	printf("\n %d\n<with ERR>\n", len);
-	len = ft_printf("Mixed: char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%, err=%%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
+	len = ft_printf("char=%c, str=%s, ptr=%p, int=%d, uint=%u, hex=%x, HEX=%X, percent=%%, err=%%%", 'Z', "Test", buf, -123, 456U, 0xabc, 0xDEF);
 	printf("\n %d\n", len);
 
 	printf("\n\n// BONUS tests\n");
