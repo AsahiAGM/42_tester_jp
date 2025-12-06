@@ -117,10 +117,10 @@ while [ $? -eq 0 ]; do
         # ERROR write case
         if [ "$mode" = "all" ]; then
             echo "compiling ERROR write case test on Mandatory..."
-            cc -g -Wall -Wextra -Wall --whole-file .errormain.c libftprintf.a
+            cc -g -Wall -Wextra -Wall .errormain.c libftprintf.a
         else
             echo "compiling ERROR write case test on Bonus..."
-            cc -g -Wall -Wextra -Wall --whole-file .errormain_bonus.c libftprintf.a
+            cc -g -Wall -Wextra -Wall .errormain_bonus.c libftprintf.a
         fi
         if [ $? -ne 0 ]; then
             echo "Link failed. Exiting."
@@ -150,10 +150,10 @@ while [ $? -eq 0 ]; do
         echo
         if [ "$mode" = "all" ]; then
             echo "compiling huge value case test on Mandatory..."
-            cc -g -Wall -Wextra -Wall --whole-file .hugemain.c libftprintf.a
+            cc -g -Wall -Wextra -Wall .hugemain.c libftprintf.a
         else
             echo "compiling huge value case test on Bonus..."
-            cc -g -Wall -Wextra -Wall --whole-file .hugemain_bonus.c libftprintf.a
+            cc -g -Wall -Wextra -Wall .hugemain_bonus.c libftprintf.a
         fi
         if [ $? -ne 0 ]; then
             echo "Link failed. Exiting."

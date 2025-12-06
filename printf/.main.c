@@ -25,7 +25,7 @@ int	main(void)
 	len = printf("%i", -42); printf(" %d\n", len);
 	len = printf("%i", INT_MIN); printf(" %d\n", len);
 	len = printf("%u", 2025); printf(" %d\n", len);
-	len = printf("%u", -2025); printf(" %d\n", len);
+	len = printf("%u", -2025); printf(" %d\n", len); // overflow
 	len = printf("%x", 0xFF); printf(" %d\n", len);
 	len = printf("%x", 0x0); printf(" %d\n", len);
 	len = printf("%X", 0xFF); printf(" %d\n", len);

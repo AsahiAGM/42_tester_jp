@@ -63,7 +63,6 @@ int main(void)
 	return (0);
 }
 
-// STDOUTエラーのテストをしたい場合これを有効化
 ssize_t safe_write(int fd, const void *val, size_t size)
 {
     (void)fd; (void)val; (void)size;
